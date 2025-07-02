@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+#stepzen
+/stepzen
+
 # testing
 /coverage
 
