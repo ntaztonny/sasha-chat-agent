@@ -9,6 +9,7 @@ import {
 } from "@clerk/nextjs";
 import "./globals.css";
 import ApolloProviderWrapper from "@/components/ApolloProvider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,7 +27,7 @@ export default function RootLayout({
         <html lang="en">
           <body className=" min-h-screen flex width-full">
             {children}
-            {/* tooaser */}
+            <Toaster position="bottom-center" />
           </body>
         </html>
       </ClerkProvider>

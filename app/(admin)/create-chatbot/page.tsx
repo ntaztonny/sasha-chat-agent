@@ -12,23 +12,26 @@ import React, { FormEvent, useState } from "react";
 function CreateChatBot() {
   const { user } = useUser();
   const [name, setName] = useState("");
+  const router = useRouter();
+
   const [createChatBot, { data, loading, error }] = useMutation(
     CREATE_CHATBOT,
     {
       variables: {
         clerk_user_id: user?.id,
         name,
+        created_at: new Date(),
       },
     }
   );
-  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const data = await createChatBot();
+      console.log("mutation response", data);
       setName("");
-      router.push(`/edit-chatbot/${data.data.insertChatbot.id}`);
+      router.push(`/edit-chatbot/${data.data.insertChatbots.id}`);
     } catch (err) {
       console.error(err);
     }

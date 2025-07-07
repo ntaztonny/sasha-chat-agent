@@ -10,10 +10,12 @@ const corsHeaders = {
 
 export async function POST(request: NextRequest) {
   const { query, variables } = await request.json();
+  console.log("query DEBUG >>>>>", query);
+  console.log("variableuery DEBUG >>>>>", variables);
 
   try {
     let result;
-    if (query.trim().startsWith("mutatiom")) {
+    if (query.trim().startsWith("mutation")) {
       //Handle mutations
       result = await serverClient.mutate({
         mutation: gql`
