@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_CHATBOT_BY_ID = gql`
-  query GetChatbotById($id: String!) {
+  query GetChatbotById($id: Int!) {
     chatbots(id: $id) {
       id
       name

@@ -3,11 +3,11 @@ export interface Chatbot {
   clerk_user_id: string;
   name: string;
   created_at: string;
-  chatbot_characteristics: ChatbotCharacteristics[];
+  chatbot_characteristics: ChatbotCharacteristic[];
   chat_sessions: ChatSession[];
 }
 
-export interface ChatbotCharacteristics {
+export interface ChatbotCharacteristic {
   id: number;
   chatbot_id: number;
   content: string;
@@ -43,5 +43,5 @@ export interface GetChatbotByIdResponse {
 }
 
 export interface GetChatbotByIdVariables {
-  id: string;
+  id: number;
 }
