@@ -14,22 +14,18 @@ function CreateChatBot() {
   const [name, setName] = useState("");
   const router = useRouter();
 
-  const [createChatBot, { data, loading, error }] = useMutation(
-    CREATE_CHATBOT,
-    {
-      variables: {
-        clerk_user_id: user?.id,
-        name,
-        created_at: new Date(),
-      },
-    }
-  );
+  const [createChatBot, { loading, error }] = useMutation(CREATE_CHATBOT, {
+    variables: {
+      clerk_user_id: user?.id,
+      name,
+      created_at: new Date(),
+    },
+  });
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const data = await createChatBot();
-      console.log("mutation response", data);
       setName("");
       router.push(`/edit-chatbot/${data.data.insertChatbots.id}`);
     } catch (err) {
@@ -40,6 +36,17 @@ function CreateChatBot() {
   if (!user) {
     return null;
   }
+  if (loading)
+    return (
+      <div className="mx-auto animate-spin p-10">
+        <Avator seed="Sasha chatbot agent" />
+      </div>
+    );
+
+  if (error) return <p>Error: {error.message}</p>;
+
+  // if (!data?.chatbots) return redirect("/");
+
   return (
     <div className="flex flex-col item-center justify-center md:flex-row md:space-x-10 bg-white p-10 rounded-md m-10 ">
       <Avator seed="sasha-chatBot" />

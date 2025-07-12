@@ -1,13 +1,12 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import React, { useEffect, useState, FormEvent } from "react";
+import React, { useEffect, useState } from "react";
 import { BASE_URL } from "@/graphql/apolloClient";
 import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
 import { useParams } from "next/navigation";
-import { mockData } from "./data";
 import Avator from "@/components/Avator";
 import { useQuery } from "@apollo/client";
 import { GET_CHATBOT_BY_ID } from "@/graphql/queries/queries";
@@ -53,7 +52,6 @@ function EditChatBot() {
   useEffect(() => {
     if (data) {
       setChatbotName(data.chatbots.name);
-      console.log("the chatbotname", chatbotName);
     }
   }, [data]);
 
