@@ -31,7 +31,7 @@ async function ViewChatbots() {
   });
 
   const sortedChatbotsByUser: Chatbot[] = data?.chatbotsList.sort(
-    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    (a: Date, b: Date) => new Date(b.created_at) - new Date(a.created_at)
   );
   //   const sortedChatbotsByUser = [];
   return (

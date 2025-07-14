@@ -38,6 +38,7 @@ export const GET_USER_CHATBOTS = gql`
         created_at
       }
       chat_sessions {
+        id
         chatbot_id
         created_at
         guest_id
@@ -45,6 +46,12 @@ export const GET_USER_CHATBOTS = gql`
           id
           content
           created_at
+        }
+        guests {
+          email
+          id
+          created_at
+          name
         }
       }
     }
