@@ -108,6 +108,53 @@ function ChatbotPage() {
 
     //handle the messages
     if (!message.trim()) return;
+
+    //optimistic upodate on the UI
+    const userMessage: Message = {
+      id: Date.now(),
+      content: message,
+      created_at: new Date().toISOString(),
+      chat_session_id: chatId,
+      sender: "user",
+    };
+
+    const loadingMessage: Message = {
+      id: Date.now() + 1,
+      content: "Thinking...",
+      created_at: new Date().toISOString(),
+      chat_session_id: chatId,
+      sender: "ai",
+    };
+
+    setMessages((prevMessage) => [...prevMessage, userMessage, loadingMessage]);
+
+    try {
+      const response = await fetch("/api/send-message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          chat_session_id: chatId,
+          chat_id: id,
+          content: message,
+        }),
+      });
+
+      const result = await response.json();
+
+      //update loading message AI message with an actual message
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === loadingMessage.id
+            ? { ...msg, content: result.content, id: result.id }
+            : msg
+        )
+      );
+    } catch (error) {
+      console.error("Error sending message", error);
+    }
   }
   // if (!chatBotData?.chatbots) return redirect("/view-chatbots");
 
@@ -192,20 +239,15 @@ function ChatbotPage() {
                 <FormItem className="flex-1">
                   <FormLabel hidden> Message</FormLabel>
                   <FormControl>
-                    {/* <Input
+                    <Input
                       placeholder="Type a message..."
                       {...field}
                       className="p-8"
-                    /> */}
-                    <Input
-                      placeholder="Type your message here..."
-                      value={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                      name={field.name}
-                      ref={field.ref}
-                      className="p-8"
                     />
+                    {/* <Input
+                      placeholder="Type your message here..."
+                      className="p-8"
+                    /> */}
                   </FormControl>
                 </FormItem>
               )}
