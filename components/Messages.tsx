@@ -3,6 +3,9 @@ import { Message } from "@/types/types";
 import { usePathname } from "next/navigation";
 import Avator from "./Avator";
 import { UserCircle } from "lucide-react";
+// import ReactMarkdown from "react-markdown";
+// import remarkGfm from "remark-gfm";
+import { useEffect, useRef } from "react";
 
 function Messages({
   messages,
@@ -12,9 +15,17 @@ function Messages({
   chatbotName: string;
 }) {
   const path = usePathname();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   const isReviewPage = path.includes("review-sessions");
   return (
-    <div className="flex flex-1 flex-col overflow-y-auto space-y-10 py-10 px-5 bg-white rounded-lg">
+    <div className=" flex-1 flex flex-col overflow-y-auto space-y-10 py-10 px-5 bg-white rounded-lg">
       {messages.map((message) => {
         const isSender = message.sender !== "user";
         return (
@@ -23,7 +34,7 @@ function Messages({
             className={`flex ${isSender ? "justify-start" : "justify-end"} `}
           >
             {isReviewPage && (
-              <p className="relative bottom-0 text-xs text-gray-700">
+              <p className="relative -top-5 text-xs text-gray-300">
                 sent{" "}
                 {new Date(message.created_at).toLocaleString("en-US", {
                   timeZone: "UTC",
@@ -56,6 +67,7 @@ function Messages({
           </div>
         );
       })}
+      <div ref={ref} />
     </div>
   );
 }
