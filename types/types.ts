@@ -72,3 +72,7 @@ export interface GetChatSessionMessagesResponse {
 export interface GetChatSessionMessagesVariables {
   id: number;
 }
+
+export interface MessagesByChatSessionIdResponse {
+  chat_sessions: ChatSession;
+}
